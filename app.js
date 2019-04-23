@@ -11,7 +11,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use('/graphql', graphqlHttp({
-    schema: buildSchema(`
+  schema: buildSchema(`
     type Event {
         _id: ID!
         title: String!
@@ -40,44 +40,44 @@ app.use('/graphql', graphqlHttp({
         mutation: RootMutation
     }
     `),
-    rootValue: {
-        events: () => {
-            return Event
-                .find()
-                .then((events) => {
-                    return events.map(event => {
-                        return { ...event._doc };
-                    })
-                })
-                .catch((err) => {
-                    throw err;
-                });
-        },
-        createEvent: (args) => {
-            const event = new Event({
-                title: args.eventInput.title,
-                description: args.eventInput.description,
-                price: +args.eventInput.price,
-                date: new Date(args.eventInput.date),
-            });
-
-            return event
-                .save()
-                .then((res) => {
-                    return { ...res._doc };
-                })
-                .catch((err) => {
-                    throw err;
-                });
-        }
+  rootValue: {
+    events: () => {
+      return Event
+        .find()
+        .then((events) => {
+          return events.map(event => {
+            return { ...event._doc };
+          })
+        })
+        .catch((err) => {
+          throw err;
+        });
     },
-    graphiql: true
+    createEvent: (args) => {
+      const event = new Event({
+        title: args.eventInput.title,
+        description: args.eventInput.description,
+        price: +args.eventInput.price,
+        date: new Date(args.eventInput.date),
+      });
+
+      return event
+        .save()
+        .then((res) => {
+          return { ...res._doc };
+        })
+        .catch((err) => {
+          throw err;
+        });
+    }
+  },
+  graphiql: true
 }));
 
 mongoose.connect(process.env.database, { useNewUrlParser: true })
-    .then(() => {
-        app.listen(3000);
-    })
-    .catch((err) => {
-        console.log('Database error ' + err);
-    });
+  .then(() => {
+    app.listen(3000);
+  })
+  .catch((err) => {
+    console.log('Database error ' + err);
+  });
