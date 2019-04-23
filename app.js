@@ -36,13 +36,22 @@ app.use('/graphql', graphqlHttp({
     } 
 
     schema {
-            query: RootQuery
-            mutation: RootMutation
-        }
+        query: RootQuery
+        mutation: RootMutation
+    }
     `),
     rootValue: {
         events: () => {
-            return events;
+            return Event
+                .find()
+                .then((events) => {
+                    return events.map(event => {
+                        return { ...event._doc, _id: event._doc._id.toString() };
+                    })
+                })
+                .catch((err) => {
+                    throw err;
+                });
         },
         createEvent: (args) => {
             const event = new Event({
@@ -55,12 +64,9 @@ app.use('/graphql', graphqlHttp({
             return event
                 .save()
                 .then((res) => {
-                    console.log(res);
-                    console.log(res._doc);
                     return { ...res._doc };
                 })
                 .catch((err) => {
-                    console.log(err);
                     throw err;
                 });
         }
