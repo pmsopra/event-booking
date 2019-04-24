@@ -15,7 +15,8 @@ const events = async eventIds => {
         creator: user.bind(this, event.creator)
       };
     });
-  } catch (err) {
+  }
+  catch (err) {
     throw err;
   }
 };
@@ -27,7 +28,8 @@ const singleEvent = async eventId => {
       ...event._doc,
       creator: user.bind(this, event.creator)
     };
-  } catch (err) {
+  }
+  catch (err) {
     throw err;
   }
 };
@@ -40,7 +42,8 @@ const user = async userId => {
       ...user._doc,
       createdEvents: events.bind(this, user.createdEvents)
     };
-  } catch (err) {
+  }
+  catch (err) {
     throw err;
   }
 };
@@ -56,7 +59,8 @@ module.exports = {
           creator: user.bind(this, event._doc.creator)
         };
       });
-    } catch (err) {
+    }
+    catch (err) {
       throw err;
     }
   },
@@ -72,7 +76,8 @@ module.exports = {
           updatedAt: new Date(booking._doc.updatedAt).toISOString(),
         }
       });
-    } catch (err) {
+    }
+    catch (err) {
       throw err;
     }
   },
@@ -101,7 +106,8 @@ module.exports = {
       await creator.save();
 
       return createdEvent;
-    } catch (err) {
+    }
+    catch (err) {
       console.log(err);
       throw err;
     }
@@ -122,7 +128,8 @@ module.exports = {
       const result = await user.save();
 
       return { ...result._doc, password: null };
-    } catch (err) {
+    }
+    catch (err) {
       throw err;
     }
   },
@@ -143,5 +150,22 @@ module.exports = {
       createdAt: new Date(result._doc.createdAt).toISOString(),
       updatedAt: new Date(result._doc.updatedAt).toISOString(),
     }
-  }
+  },
+
+  cancelBooking: async args => {
+    try {
+      const booking = await Booking.findById(args.bookingId).populate('event');
+      const event = {
+        ...booking.event._doc,
+        creator: user.bind(this, booking.event._doc.creator)
+      };
+
+      await Booking.deleteOne({ _id: args.bookingId });
+
+      return event;
+    }
+    catch (err) {
+      throw err;
+    }
+  },
 }
