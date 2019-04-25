@@ -4,16 +4,22 @@ import './App.css';
 import AuthPage from './pages/Auth';
 import EventsPage from './pages/Events';
 import BookingsPage from './pages/Bookings';
+import MainNavigation from './components/navigation/MainNavigation';
 
 function App() {
   return (
     <BrowserRouter>
-      <Switch>
-        <Redirect from="/" to="/auth" exact></Redirect>
-        <Route path="/auth" component={AuthPage}></Route>
-        <Route path="/events" component={EventsPage}></Route>
-        <Route path="/bookings" component={BookingsPage}></Route>
-      </Switch>
+      <React.Fragment>
+        <MainNavigation />
+        <main>
+          <Switch>
+            <Redirect from="/" to="/auth" exact></Redirect>
+            <Route path="/auth" component={AuthPage}></Route>
+            <Route path="/events" component={EventsPage}></Route>
+            <Route path="/bookings" component={BookingsPage}></Route>
+          </Switch>
+        </main>
+      </React.Fragment>
     </BrowserRouter>
   );
 }
