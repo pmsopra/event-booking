@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AuthContext from '../context/auth-context';
 
 import './Auth.css';
 
@@ -8,6 +9,8 @@ class AuthPage extends Component {
     this.emailEl = React.createRef();
     this.passwordEl = React.createRef();
   }
+
+  static contextType = AuthContext;
 
   state = {
     isLogin: true
