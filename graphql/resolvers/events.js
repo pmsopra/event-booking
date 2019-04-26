@@ -16,7 +16,7 @@ module.exports = {
       throw err;
     }
   },
-  createEvent: async args => {
+  createEvent: async (args, req) => {
     const event = new Event({
       title: args.eventInput.title,
       description: args.eventInput.description,
@@ -30,6 +30,7 @@ module.exports = {
     try {
       const result = await event.save();
       createdEvent = transformEvent(result);
+
       const creator = await User.findById(req.userId);
 
       if (!creator) {
