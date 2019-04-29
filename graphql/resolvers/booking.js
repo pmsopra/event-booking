@@ -9,7 +9,7 @@ module.exports = {
     }
 
     try {
-      const bookings = await Booking.find();
+      const bookings = await Booking.find({ user: req.userId });
 
       return bookings.map(booking => {
         return transformBooking(booking);
@@ -26,7 +26,7 @@ module.exports = {
 
     const fetchedEvent = await Event.findOne({ _id: args.eventId });
     const booking = new Booking({
-      user: '5cbf16055a26f93b648fd64e',
+      user: req.userId,
       event: fetchedEvent
     });
     const result = await booking.save();
