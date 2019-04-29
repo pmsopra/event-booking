@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import Modal from '../components/modal/Modal';
-import Backdrop from '../components/backdrop/Backdrop';
+import Modal from '../components/Modal/Modal';
+import Backdrop from '../components/Backdrop/Backdrop';
 import AuthContext from '../context/auth-context';
 
 import './Events.css';

@@ -4,7 +4,7 @@ import './App.css';
 import AuthPage from './pages/Auth';
 import EventsPage from './pages/Events';
 import BookingsPage from './pages/Bookings';
-import MainNavigation from './components/navigation/MainNavigation';
+import MainNavigation from './components/Navigation/MainNavigation';
 import AuthContext from "./context/auth-context";
 
 class App extends Component {
@@ -42,7 +42,7 @@ class App extends Component {
                 {!this.state.token && (
                   <Route path="/auth" component={AuthPage} />
                 )}
-                
+
                 <Route path="/events" component={EventsPage} />
 
                 {this.state.token && (
